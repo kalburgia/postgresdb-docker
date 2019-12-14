@@ -1,0 +1,31 @@
+My test project to setup docker container with schema and structures 
+
+see script file 01_gwayorchdb_createDB_users.sql  for details of user and passwords
+
+DB name : gwayregdb
+admin user : gwayadmin/gwayadmin
+schema : gwayorch
+schema admin user : gwayorch_admin/gwayorch_admin
+
+
+Docker run : 
+docker run --rm --name gwayreg -d -p 5434:5432 -v gwaydata:/var/lib/postgresql/gwaydata gwayreg:demo
+
+
+Docker image name should be set to gatewaydb
+
+#docker commands 
+
+docker volume rm gwdata
+
+docker build -t gatewaydb dockerfile
+
+# target server
+
+docker pull gatewaydb:latest
+
+docker rm -f gwayreg
+# choose port # as needed in application 
+docker run --restart=always --name gatewaydb  -d -p 5432:5432 -v gwaydata:/var/lib/postgresql/gwaydata gatewaydb:latest 
+
+

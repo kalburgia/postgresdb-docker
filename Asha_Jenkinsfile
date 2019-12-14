@@ -1,0 +1,15 @@
+node{
+    stage('CheckOut GitLab'){
+    	git credentialsId: 'imcci-project-git-user' , url: 'git@gitlab1.sail.triad.local:IMCCI/Gatewaydb-setup.git'
+    }
+	
+  
+    stage('Build/Tag Docker Image'){ 
+	     docker.withTool('docker'){
+			docker.withRegistry('https://${M2C_NEXUS_SERVER}/', 'nexus-registry'){
+			    def image = docker.build("imcci/gatewaydb-setup-master","./Dockerfile")
+				    image.push("latest")
+    } 
+	}
+	}
+}
